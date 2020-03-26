@@ -5,13 +5,16 @@ metadata:
   namespace: spinbot
 spec:
   schedule: "*/5 * * * *"
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 120
   jobTemplate:
     spec:
+      backoffLimit: 0
       template:
         spec:
           containers:
           - name: spinbot
-            image: gcr.io/spinnaker-marketplace/spinbot
+            image: gcr.io/spinnaker-marketplace/spinbot:master-latest
             volumeMounts:
             - name: config
               mountPath: /home/spinbot/.spinbot
