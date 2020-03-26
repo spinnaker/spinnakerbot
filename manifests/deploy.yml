@@ -109,8 +109,3 @@ data:
           - spinnaker/spinnaker.github.io
       - name: pull_request_closed_event_handler
       - name: pull_request_cherry_pick_event_handler
-
-    database:
-      influx:
-        host: 10.240.0.7
-        port: 8086
