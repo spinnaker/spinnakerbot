@@ -9,8 +9,6 @@ invalid_command_format = ("You must specify exactly 1 release to cherry-pick " +
 
 not_merged = "Only merged PRs can be cherry picked into a release branch"
 
-cherry_pick_label = "cherry-pick"
-
 class PullRequestCherryPickEventHandler(Handler):
     def __init__(self):
         super().__init__()
@@ -24,7 +22,6 @@ class PullRequestCherryPickEventHandler(Handler):
     def handle(self, g, event):
         # avoid fetching until needed
         pull_request = None
-        commit = None
         repo = GetRepo(event)
         if repo in self.omit_repos:
             self.logging.info('Skipping {} because it\'s in omitted repo {}'.format(event, repo))
@@ -38,19 +35,20 @@ class PullRequestCherryPickEventHandler(Handler):
                 release = command[1]
                 if pull_request is None:
                     pull_request = GetPullRequest(g, event)
-                    commit = pull_request.merge_commit_sha
-                self.do_cherry_pick(g, pull_request, repo, commit, release)
+                self.do_cherry_pick(pull_request, release)
 
-    def do_cherry_pick(self, g, pull_request, repo, commit, release):
+    def do_cherry_pick(self, pull_request, release):
         if not pull_request.is_merged:
             pull_request.create_issue_comment(not_merged)
 
-        try:
-            p = g.cherry_pick(repo=repo, release=release, commit=commit)
-            AddLabel(g, p, cherry_pick_label)
-            pull_request.create_issue_comment("Cherry pick successful: #{}".format(p.number))
-        except RuntimeError as e:
-            pull_request.create_issue_comment("Cherry pick failed: {}".format(str(e)))
-
+        deprecation_message = (
+            "Support for automating cherry picks is being removed from spinnakerbot "
+            "in favor of the mergify backport command. To help with the transition, "
+            "I'll run the required command for you now, but in the future please ",
+            "run the mergify command directly."
+        )
+        mergify_command = "@Mergifyio backport release-{}.x".format(release)
+        pull_request.create_issue_comment(deprecation_message)
+        pull_request.create_issue_comment(mergify_command)
 
 PullRequestCherryPickEventHandler()
