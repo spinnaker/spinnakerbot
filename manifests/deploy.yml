@@ -15,6 +15,7 @@ spec:
           containers:
           - name: spinbot
             image: gcr.io/spinnaker-marketplace/spinbot:master-latest
+            imagePullPolicy: Always
             volumeMounts:
             - name: config
               mountPath: /home/spinbot/.spinbot

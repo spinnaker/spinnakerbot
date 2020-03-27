@@ -44,7 +44,7 @@ class PullRequestCherryPickEventHandler(Handler):
         deprecation_message = (
             "Support for automating cherry picks is being removed from spinnakerbot "
             "in favor of the mergify backport command. To help with the transition, "
-            "I'll run the required command for you now, but in the future please ",
+            "I'll run the required command for you now, but in the future please "
             "run the mergify command directly."
         )
         mergify_command = "@Mergifyio backport release-{}.x".format(release)
