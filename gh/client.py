@@ -7,13 +7,23 @@ import heapq
 import os
 
 class Client(object):
-    def __init__(self, config):
+    def __init__(self, config, storage):
         self.token = self.get_token(config)
         self.username = self.get_username(config)
         self.g = github.Github(self.token)
+        self.storage = storage
         self._repos = config['repos']
         self.monitoring_db = monitoring.GetDatabase('spinbot')
         self.logging = logging.getLogger('github_client_wrapper')
+
+
+        # Kludge accessing a private property to support ETag for certain requests, to avoid GitHub's rate limiter
+        # First, fetch rate_limit to initialize the Requester connection
+        self.rate_limit()
+        requester = self.g._Github__requester
+        real_connection = requester._Requester__connection
+        # Replace the connection with one that manages ETag caching headers
+        requester._Requester__connection = ETagSupport(real_connection, storage)
 
     def get_username(self, config):
         return config.get('username', 'spinnakerbot')
@@ -98,3 +108,40 @@ class Client(object):
 
     def get_issue(self, repo, num):
         return self.g.get_repo(repo).get_issue(num)
+
+
+class ETagSupport:
+    def __init__(self, real_connection, storage):
+        self.real_connection = real_connection
+        self.storage = storage
+        self.logging = logging.getLogger('github_connection')
+
+    def can_use_etag(self, url):
+        return url.endswith('/pulls') or url.endswith('/events') or url.endswith('/issues')
+
+    def request(self, verb, url, input, headers):
+        previous_etag = None
+        if self.can_use_etag(url):
+            previous_etag = self.storage.load("ETag:%s" % url)
+            self.logging.info("---> %s %s (ETag: %s)" % (verb, url, previous_etag))
+            if previous_etag is not None:
+                headers['If-None-Match'] = previous_etag
+        else:
+            self.logging.info("---> %s %s (ETag: NotSupportedForUrl)" % (verb, url))
+
+        return self.real_connection.request(verb, url, input, headers)
+
+    def getresponse(self):
+        url = self.real_connection.url
+        response = self.real_connection.getresponse()
+        status = response.status
+        etag = response.headers['etag']
+        if self.can_use_etag(url) and etag is not None:
+            self.storage.store("ETag:%s" % url, etag)
+            self.logging.info("<--- %s (ETag: %s)" % (status, etag))
+        else:
+            self.logging.info("<--- %s" % status)
+        return response
+
+    def close(self):
+        return

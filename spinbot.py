@@ -8,8 +8,8 @@ import monitoring
 import policy
 from config import GetCtx
 
-def create_client(ctx):
-    return gh.Client(ctx.get('github', {}))
+def create_client(ctx, storage):
+    return gh.Client(ctx.get('github', {}), storage)
 
 def create_storage(ctx):
     return storage.BuildStorage(ctx.get('storage', {}))
@@ -40,13 +40,11 @@ def main():
     setup_events(ctx)
     setup_policies(ctx)
 
-    g = create_client(ctx)
+    storage = create_storage(ctx)
+    github_client = create_client(ctx, storage)
 
-    s = create_storage(ctx)
-
-    g.rate_limit()
-    event.ProcessEvents(g, s)
-    policy.ApplyPolicies(g)
+    event.ProcessEvents(github_client, storage)
+    policy.ApplyPolicies(github_client)
 
     logging.info('Flushing ops...')
     monitoring.FlushDatabaseWrites(align_points=True)
