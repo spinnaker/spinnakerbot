@@ -21,20 +21,13 @@ class LogPullRequestPolicy(Policy):
 
         repo = PullRequestRepo(o)
 
-        reviews = 0
-        for r in o.get_reviews():
-            reviews += 1
-
         self.monitoring_db.write('pull_request', { 
             'days_since_created': days_since_created,
             'days_since_updated': days_since_updated,
-            'review_comments': o.review_comments,
-            'reviews': reviews,
             'count': 1
         }, tags={ 
             'repo': repo, 
             'user': o.user.login,
-            'mergable_state': o.mergeable_state,
             'state': o.state
         })
 

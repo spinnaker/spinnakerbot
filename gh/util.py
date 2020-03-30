@@ -10,8 +10,7 @@ def PullRequestRepo(issue):
     return '/'.join(issue.url.split('/')[-4:-2])
 
 def HasLabel(issue, name):
-    label = next((l for l in issue.get_labels() if l.name == name), None)
-    return label is not None
+    return name in map(lambda l : l.name, issue.labels)
 
 def RemoveLabel(gh, issue, name, create=True):
     if not HasLabel(issue, name):
