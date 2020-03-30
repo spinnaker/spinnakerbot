@@ -11,10 +11,9 @@ class LocalStorage(Storage):
         super().__init__()
 
     def store(self, key, val):
+        with open(self.path, 'r') as f:
+            props = yaml.safe_load(f) or {}
         with open(self.path, 'w+') as f:
-            props = yaml.safe_load(f)
-            if props is None:
-                props = {}
             props[key] = val
             f.write(yaml.safe_dump(props))
 
