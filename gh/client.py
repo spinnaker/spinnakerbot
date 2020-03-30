@@ -136,7 +136,7 @@ class ETagSupport:
         url = self.real_connection.url
         response = self.real_connection.getresponse()
         status = response.status
-        etag = response.headers['etag']
+        etag = response.headers.get('etag')
         if self.can_use_etag(url) and etag is not None:
             self.storage.store("ETag:%s" % url, etag)
             self.logging.info("<--- %s (ETag: %s)" % (status, etag))
