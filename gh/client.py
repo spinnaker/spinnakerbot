@@ -118,7 +118,7 @@ class ETagSupport:
         self.logging = logging.getLogger('github_connection')
 
     def can_use_etag(self, url):
-        return url.endswith('/pulls') or url.endswith('/events') or url.endswith('/issues')
+        return url.endswith('/events')
 
     def request(self, verb, url, input, headers):
         previous_etag = None
