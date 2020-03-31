@@ -1,10 +1,5 @@
 import logging
 
-import github
-import github.Issue
-import github.PullRequest
-import github.Repository
-
 logging = logging.getLogger('github_util')
 
 def IssueRepo(issue):
@@ -41,13 +36,3 @@ def AddLabel(gh, issue, name, create=True):
         )
         return
     issue.add_to_labels(label)
-
-def ObjectType(o):
-    if isinstance(o, github.Issue.Issue) and o.html_url.split('/')[-2] == 'issues':
-        return 'issue'
-    if isinstance(o, github.PullRequest.PullRequest):
-        return 'pull_request'
-    elif isinstance(o, github.Repository.Repository):
-        return 'repository'
-    else:
-        return None

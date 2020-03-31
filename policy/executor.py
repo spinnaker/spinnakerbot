@@ -1,4 +1,3 @@
-import itertools
 import logging
 import traceback
 
@@ -15,7 +14,7 @@ def ApplyPolicies(g):
         return
 
     logging.info('Processing issues, repos')
-    for i in itertools.chain(*[g.issues(), g.pull_requests(), g.repos()]):
+    for i in g.issues():
         for p in policy.Policies():
             if p.applies(i):
                 err = None

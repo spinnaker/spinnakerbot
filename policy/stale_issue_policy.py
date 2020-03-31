@@ -1,6 +1,8 @@
 from datetime import datetime
 
-from gh import HasLabel, AddLabel, ObjectType
+import github.Issue
+
+from gh import HasLabel, AddLabel
 from .policy import Policy
 
 
@@ -14,10 +16,10 @@ class StaleIssuePolicy(Policy):
         if not self.stale_days:
             self.stale_days = 45
 
-    def applies(self, o):
-        return ObjectType(o) == 'issue'
+    def applies(self, o: github.Issue.Issue):
+        return o.html_url.split('/')[-2] == 'issues'
 
-    def apply(self, g, o):
+    def apply(self, g, o: github.Issue.Issue):
         days_since_created = None
         days_since_updated = None
         now = datetime.now()

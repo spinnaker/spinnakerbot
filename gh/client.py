@@ -58,18 +58,6 @@ class Client(object):
             self._repo_objects[r] = self.g.get_repo(r)
         return self._repo_objects[r]
 
-    def repos(self):
-        for r in self._repos:
-            yield self.get_repo(r)
-
-    def pull_requests(self):
-        for r in self._repos:
-            pulls = 0
-            self.logging.info('Reading pull requests from {}'.format(r))
-            for i in self.get_repo(r).get_pulls():
-                pulls += 1
-                yield i
-
     def issues(self):
         for r in self._repos:
             issues = 0

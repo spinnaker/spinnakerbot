@@ -1,5 +1,7 @@
 import logging
 
+import github.Issue
+
 from .policy_registry import RegisterPolicy, GetPolicyConfig
 
 
@@ -15,9 +17,9 @@ class Policy(object):
         name = ''.join(map(lambda c: '_' + c.lower() if c.isupper() else c, name)).strip('_')
         return name
 
-    def applies(self, o):
+    def applies(self, o: github.Issue.Issue):
         raise NotImplementedError('applies not implemented')
 
-    def apply(self, g, o):
+    def apply(self, g, o: github.Issue.Issue):
         raise NotImplementedError('apply not implemented')
 
