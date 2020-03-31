@@ -1,6 +1,5 @@
 from .handler import Handler
-from .pull_request_event import GetBaseBranch, GetPullRequest, GetTitle, GetRepo
-from gh import ReleaseBranchFor, ParseCommitMessage
+from .pull_request_event import GetPullRequest, GetRepo
 
 format_message = ('We prefer that non-test backend code be written in Java or Kotlin, rather ' +
         'than Groovy. The following files have been added and written in Groovy:\n\n' +

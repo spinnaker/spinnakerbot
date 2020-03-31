@@ -1,6 +1,6 @@
+from gh import ParseCommitMessage, FormatCommit
 from .handler import Handler
-from .pull_request_event import GetBaseBranch, GetPullRequest, GetTitle, GetRepo
-from gh import ReleaseBranchFor, ParseCommitMessage, FormatCommit
+from .pull_request_event import GetBaseBranch, GetPullRequest, GetRepo
 
 format_message = ('The following commits need their title changed:\n\n{}\n\n' +
     'Please format your commit title into the form: \n\n' +

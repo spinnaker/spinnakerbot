@@ -1,4 +1,3 @@
-import re
 from .handler import Handler
 
 class LogEventHandler(Handler):
@@ -9,12 +8,6 @@ class LogEventHandler(Handler):
         return True
 
     def handle(self, g, event):
-        company = event.actor.company
-        if not company:
-            company = "unknown"
-        else:
-            company = re.sub(r'\W+', '', company).lower()
-
         self.logging.info('{} ({}): @{} -> {}'.format(event.repo.name, event.created_at, event.actor.login, event.type))
         if self.config.get('payload'):
             self.logging.info('  {}'.format(event.payload))

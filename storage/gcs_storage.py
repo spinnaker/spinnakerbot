@@ -48,8 +48,6 @@ class GcsStorage(Storage):
         contents = '{}'
         if b:
             contents = b.download_as_string()
-        else:
-            b = self.bucket.blob(self.path)
 
         props = yaml.safe_load(contents)
         if props is None:

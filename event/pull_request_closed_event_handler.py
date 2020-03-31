@@ -1,6 +1,7 @@
-from gh import ParseReleaseBranch, ParseCommitMessage, AddLabel
-from .pull_request_event import GetBaseBranch, GetPullRequest, GetRepo
+from gh import ParseReleaseBranch, AddLabel
 from .handler import Handler
+from .pull_request_event import GetBaseBranch, GetPullRequest, GetRepo
+
 
 class PullRequestClosedEventHandler(Handler):
     def __init__(self):

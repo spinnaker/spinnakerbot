@@ -1,7 +1,8 @@
 import logging
 import traceback
-import event
 from datetime import datetime
+
+import event
 from .handler_registry import GetConfig
 
 dateformat = '%Y-%m-%d %H:%M:%S'
@@ -15,7 +16,7 @@ def ProcessEvents(g, s):
     start_at = config.get('start_at')
 
     if start_at is None:
-        start_at = s.load('start_at');
+        start_at = s.load('start_at')
 
     if start_at is None:
         start_at = datetime.now()
@@ -32,11 +33,9 @@ def ProcessEvents(g, s):
         for h in event.Handlers():
             if h.handles(e):
                 logging.info('Handling {} with {}'.format(e, h))
-                err = None
                 try:
                     h.handle(g, e)
                 except Exception as _err:
                     logging.warn('Failure handling {} with {} due to {}: {}'.format(
                             e, h, _err, traceback.format_exc()
                     ))
-                    err = _err

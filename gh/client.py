@@ -112,7 +112,6 @@ class ETagSupport:
         return url.endswith('/events')
 
     def request(self, verb, url, input, headers):
-        previous_etag = None
         if self.can_use_etag(url):
             previous_etag = self.storage.load("ETag:%s" % url)
             self.logging.info("---> %s %s (ETag: %s)" % (verb, url, previous_etag))
