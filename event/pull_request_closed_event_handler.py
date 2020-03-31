@@ -1,6 +1,3 @@
-import re
-from datetime import datetime
-
 from gh import ParseReleaseBranch, ParseCommitMessage, AddLabel
 from .pull_request_event import GetBaseBranch, GetPullRequest, GetRepo
 from .handler import Handler
@@ -19,37 +16,7 @@ class PullRequestClosedEventHandler(Handler):
             log.warn('Unable to determine pull request for {}'.format(event))
             return
 
-        merged = pull_request.merged
-        age = pull_request.closed_at - pull_request.created_at
-        change_size = pull_request.additions + pull_request.deletions
-        files_changed_count = pull_request.changed_files
-        comments = pull_request.comments
-        parsed_message = ParseCommitMessage(pull_request.title)
-        change_type = None
-        if parsed_message is not None:
-            change_type = parsed_message.get('type')
-
-        approved = next((r for r in pull_request.get_reviews() if r.state == 'APPROVED'), None) is not None
-
-        release_branch = self.label_release(g, event, pull_request)
-
-        self.monitoring_db.write('pull_request_closed',
-            {
-                'count': 1,
-                'age_days': age.days,
-                'loc_delta': change_size,
-                'files_changed_count': files_changed_count,
-                'comments': comments
-            },
-            tags={
-                'repo': event.repo.name,
-                'user': event.actor.login,
-                'release_branch': release_branch,
-                'change_type': change_type,
-                'approved': approved,
-                'merged': merged
-            }
-        )
+        self.label_release(g, event, pull_request)
 
     def label_release(self, g, event, pull_request):
         if not pull_request or not pull_request.merged:

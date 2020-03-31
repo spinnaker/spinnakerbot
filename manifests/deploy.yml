@@ -78,9 +78,6 @@ data:
 
     policy:
       policies:
-      - name: log_issue_policy
-      - name: log_pull_request_policy
-      - name: log_repository_policy
       - name: stale_issue_policy
 
     event:

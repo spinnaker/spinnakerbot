@@ -1,12 +1,10 @@
 import logging
-import monitoring
 from .policy_registry import RegisterPolicy, GetPolicyConfig
 
 class Policy(object):
     def __init__(self):
         self.id = self._id()
         self.logging = logging.getLogger(self.id)
-        self.monitoring_db = monitoring.GetDatabase('spinbot')
         self.config = GetPolicyConfig(self.id)
         RegisterPolicy(self)
 

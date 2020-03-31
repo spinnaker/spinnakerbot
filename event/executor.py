@@ -1,7 +1,6 @@
 import logging
 import traceback
 import event
-import monitoring
 from datetime import datetime
 from .handler_registry import GetConfig
 
@@ -14,7 +13,6 @@ def ProcessEvents(g, s):
         return
 
     start_at = config.get('start_at')
-    monitoring_db = monitoring.GetDatabase('spinbot')
 
     if start_at is None:
         start_at = s.load('start_at');
@@ -42,8 +40,3 @@ def ProcessEvents(g, s):
                             e, h, _err, traceback.format_exc()
                     ))
                     err = _err
-
-                monitoring_db.write('event_handle', { 'value': 1 }, tags={
-                    'handler': h.id,
-                    'error': err
-                })

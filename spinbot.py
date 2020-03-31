@@ -4,7 +4,6 @@ import logging
 import gh
 import storage
 import event
-import monitoring 
 import policy
 from config import GetCtx
 
@@ -13,9 +12,6 @@ def create_client(ctx, storage):
 
 def create_storage(ctx):
     return storage.BuildStorage(ctx.get('storage', {}))
-
-def setup_database(ctx):
-    monitoring.ConfigureMonitoring(ctx.get('database', {}))
 
 def setup_logging(ctx):
     lctx = ctx.get('logging', {})
@@ -36,7 +32,6 @@ def main():
     ctx = GetCtx()
 
     setup_logging(ctx)
-    setup_database(ctx)
     setup_events(ctx)
     setup_policies(ctx)
 
@@ -45,9 +40,6 @@ def main():
 
     event.ProcessEvents(github_client, storage)
     policy.ApplyPolicies(github_client)
-
-    logging.info('Flushing ops...')
-    monitoring.FlushDatabaseWrites(align_points=True)
     logging.info('...done')
 
 if __name__ == '__main__':
