@@ -1,15 +1,15 @@
-FROM python:3
+FROM python:3-alpine
 
-RUN useradd -ms /bin/bash spinbot
+RUN adduser -D -S spinbot
 
 WORKDIR /usr/src/app
 
-COPY . .
-
-RUN chown -R spinbot *
+COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
+COPY . .
+
 USER spinbot
 
-CMD [ "./spinbot.py" ]
+ENTRYPOINT ["/usr/local/bin/python", "./spinbot.py" ]
