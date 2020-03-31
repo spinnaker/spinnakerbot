@@ -12,6 +12,7 @@ def ProcessEvents(g, s):
     enabled = config.get('enabled', True)
     if enabled is not None and not enabled:
         return
+    repos = config.get('repos', [])
 
     start_at = config.get('start_at')
 
@@ -26,7 +27,7 @@ def ProcessEvents(g, s):
     newest_event = start_at
 
     logging.info('Processing events, starting at {}'.format(start_at))
-    for e in g.events_since(start_at):
+    for e in g.events_since(start_at, repos):
         if e.created_at > newest_event:
             newest_event = e.created_at
             s.store('start_at', newest_event.strftime(dateformat))
@@ -36,6 +37,6 @@ def ProcessEvents(g, s):
                 try:
                     h.handle(g, e)
                 except Exception as _err:
-                    logging.warn('Failure handling {} with {} due to {}: {}'.format(
+                    logging.warning('Failure handling {} with {} due to {}: {}'.format(
                             e, h, _err, traceback.format_exc()
                     ))

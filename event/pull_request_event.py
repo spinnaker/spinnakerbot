@@ -17,14 +17,14 @@ def GetRepo(event):
 def GetPullRequest(g, event):
     repo = GetRepo(event)
     number = event.payload.get('number', event.payload.get('issue', {}).get('number'))
-    if repo == None or number == None:
+    if repo is None or number is None:
         url = event.payload.get('issue', {}).get('url')
         if not url:
             return None
 
         number = int(url.split('/')[-1])
 
-        if repo == None or number == None:
+        if repo is None or number is None:
             return None
 
     return g.get_pull_request(repo, number)

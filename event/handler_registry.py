@@ -9,7 +9,7 @@ def ConfigureHandlers(_conf):
     conf.update(_conf)
     handlers = _conf.get('handlers')
     if not handlers:
-        logging.warn('No handlers registered')
+        logging.warning('No handlers registered')
         return
 
     dir_path = dirname(realpath(__file__))
@@ -20,7 +20,7 @@ def ConfigureHandlers(_conf):
             logging.info('Registering {}'.format(h))
             importlib.import_module('event.{}'.format(name))
         else:
-            logging.warn('{} is not a valid handler name, ignoring it.'.format(f))
+            logging.warning('{} is not a valid handler name, ignoring it.'.format(f))
 
 def GetConfig():
     return conf

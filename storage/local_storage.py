@@ -1,6 +1,9 @@
 import os
+
 import yaml
+
 from .storage import Storage
+
 
 class LocalStorage(Storage):
     def __init__(self, path):

@@ -46,6 +46,28 @@ data:
   config: |
     github:
       token_path: /home/spinbot/github/token
+
+    logging:
+      level: INFO
+
+    storage:
+      gcs:
+        bucket: spinnaker-bot-cache
+        project: spinnaker-build
+        path: cache
+        json_path: /home/spinbot/credentials/account.json
+
+    policy:
+      repos:
+      - spinnaker/spinnaker
+      - spinnaker/spinnaker.github.io
+      - spinnaker/deck-kayenta
+      - spinnaker/kayenta
+      - spinnaker/keel
+      policies:
+      - name: stale_issue_policy
+
+    event:
       repos:
       - spinnaker/spinnaker
       - spinnaker/spinnaker.github.io
@@ -65,22 +87,6 @@ data:
       - spinnaker/halyard
       - spinnaker/spin
       - spinnaker/kork
-
-    logging:
-      level: INFO
-
-    storage:
-      gcs:
-        bucket: spinnaker-bot-cache
-        project: spinnaker-build
-        path: cache
-        json_path: /home/spinbot/credentials/account.json
-
-    policy:
-      policies:
-      - name: stale_issue_policy
-
-    event:
       handlers:
       - name: label_issue_comment_event_handler
       - name: issue_comment_assign_handler

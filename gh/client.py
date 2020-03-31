@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 
-import github
-import logging
 import heapq
+import logging
 import os
+
+import github
+
 
 class Client(object):
     def __init__(self, config, storage):
@@ -11,7 +13,6 @@ class Client(object):
         self.username = self.get_username(config)
         self.g = github.Github(self.token)
         self.storage = storage
-        self._repos = config['repos']
         self._repo_objects = dict()
         self.logging = logging.getLogger('github_client_wrapper')
 
@@ -56,29 +57,15 @@ class Client(object):
             self._repo_objects[r] = self.g.get_repo(r)
         return self._repo_objects[r]
 
-    def repos(self):
-        for r in self._repos:
-            yield self.get_repo(r)
-
-    def pull_requests(self):
-        for r in self._repos:
-            pulls = 0
-            self.logging.info('Reading pull requests from {}'.format(r))
-            for i in self.get_repo(r).get_pulls():
-                pulls += 1
-                yield i
-
-    def issues(self):
-        for r in self._repos:
-            issues = 0
+    def issues(self, repos):
+        for r in repos:
             self.logging.info('Reading issues from {}'.format(r))
             for i in self.get_repo(r).get_issues():
-                issues += 1
                 yield i
 
-    def events_since(self, date):
+    def events_since(self, date, repos):
         return heapq.merge(
-                *[ reversed(list(self._events_since_repo_iter(date, r))) for r in self._repos ],
+                *[ reversed(list(self._events_since_repo_iter(date, r))) for r in repos ],
                 key=lambda e: e.created_at
         )
 

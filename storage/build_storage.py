@@ -1,5 +1,6 @@
-from .local_storage import LocalStorage
 from .gcs_storage import GcsStorage
+from .local_storage import LocalStorage
+
 
 def BuildStorage(props):
     local = props.get('local', None)

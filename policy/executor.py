@@ -1,9 +1,11 @@
-import policy
-import traceback
 import logging
-import itertools
+import traceback
+
 import github
+
+import policy
 from .policy_registry import GetConfig
+
 
 def ApplyPolicies(g):
     config = GetConfig()
@@ -11,22 +13,23 @@ def ApplyPolicies(g):
     if enabled is not None and not enabled:
         return
 
-    logging.info('Processing issues, repos')
-    for i in itertools.chain(*[g.issues(), g.pull_requests(), g.repos()]):
+    repos = config.get('repos', [])
+    logging.info('Processing issues')
+    for i in g.issues(repos):
         for p in policy.Policies():
             if p.applies(i):
                 err = None
                 try:
                     p.apply(g, i)
                 except Exception as _err:
-                    logging.warn('Failure applying {} to {} due to {}: {}'.format(
+                    logging.warning('Failure applying {} to {} due to {}: {}'.format(
                             p, i, _err, traceback.format_exc()
                     ))
                     err = _err
 
-                if err is not None and isinstance(err, github.GithubException.GithubException):
+                if err is not None and isinstance(err, github.GithubException):
                   if err.status == 403:
                     # we triggered abuse protection, time to shutdown
-                    logging.warn('Abuse protection triggered. Shutting down early.')
+                    logging.warning('Abuse protection triggered. Shutting down early.')
                     return
 

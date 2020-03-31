@@ -9,7 +9,7 @@ def ConfigurePolicies(_conf):
     conf.update(_conf)
     policies = _conf.get('policies')
     if policies is None:
-        logging.warn('{} no policies registered')
+        logging.warning('{} no policies registered')
         return
 
     dir_path = dirname(realpath(__file__))
@@ -20,7 +20,7 @@ def ConfigurePolicies(_conf):
             logging.info('Registering {}'.format(p))
             importlib.import_module('policy.{}'.format(name))
         else:
-            logging.warn('{} is not a valid policy name, ignoring it.'.format(f))
+            logging.warning('{} is not a valid policy name, ignoring it.'.format(f))
 
 def GetPolicyConfig(name):
     policy = next((p for p in conf.get('policies', []) if p.get('name') == name), {})

@@ -6,7 +6,7 @@ def GetIssue(g, event):
     repo = '/'.join(url.split('/')[-4:-2])
     number = int(url.split('/')[-1])
 
-    if repo == None or number == None:
+    if repo is None or number is None:
         return None
 
     return g.get_issue(repo, number)

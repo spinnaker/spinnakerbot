@@ -1,3 +1,5 @@
+import logging
+
 from gh import ParseReleaseBranch, AddLabel
 from .handler import Handler
 from .pull_request_event import GetBaseBranch, GetPullRequest, GetRepo
@@ -14,7 +16,7 @@ class PullRequestClosedEventHandler(Handler):
     def handle(self, g, event):
         pull_request = GetPullRequest(g, event)
         if not pull_request:
-            log.warn('Unable to determine pull request for {}'.format(event))
+            logging.warning('Unable to determine pull request for {}'.format(event))
             return
 
         self.label_release(g, event, pull_request)
@@ -25,7 +27,7 @@ class PullRequestClosedEventHandler(Handler):
 
         base_branch = GetBaseBranch(event)
         release_branch = ParseReleaseBranch(base_branch)
-        if release_branch != None:
+        if release_branch is not None:
             return self.target_release(g, pull_request, release_branch)
 
         repo = GetRepo(event)

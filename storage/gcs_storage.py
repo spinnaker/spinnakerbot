@@ -1,8 +1,11 @@
 import os
+
 import yaml
 from google.cloud import storage
 from google.oauth2 import service_account
+
 from .storage import Storage
+
 
 class GcsStorage(Storage):
     def __init__(self, bucket, path, project=None, json_path=None):

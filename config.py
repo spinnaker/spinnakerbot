@@ -1,8 +1,11 @@
 import argparse
 import os
+
 import yaml
+
 import event
 import policy
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Spinbot CLI options')
