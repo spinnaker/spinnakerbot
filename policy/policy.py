@@ -1,5 +1,7 @@
 import logging
+
 from .policy_registry import RegisterPolicy, GetPolicyConfig
+
 
 class Policy(object):
     def __init__(self):

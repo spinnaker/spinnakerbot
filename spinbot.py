@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 
 import logging
-import gh
-import storage
+
 import event
+import gh
 import policy
+import storage
 from config import GetCtx
+
 
 def create_client(ctx, storage):
     return gh.Client(ctx.get('github', {}), storage)

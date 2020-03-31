@@ -1,6 +1,8 @@
-from gh import ObjectType, IssueRepo, HasLabel, AddLabel
 from datetime import datetime
+
+from gh import HasLabel, AddLabel, ObjectType
 from .policy import Policy
+
 
 class StaleIssuePolicy(Policy):
     def __init__(self):

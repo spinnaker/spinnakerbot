@@ -1,5 +1,9 @@
-import github
 import logging
+
+import github
+import github.Issue
+import github.PullRequest
+import github.Repository
 
 logging = logging.getLogger('github_util')
 
@@ -18,7 +22,7 @@ def RemoveLabel(gh, issue, name, create=True):
 
     label = gh.get_label(IssueRepo(issue), name, create=create)
     if label is None:
-        logging.warn(
+        logging.warning(
             'Label {} exists on the issue but was not found'.format(name)
         )
         return

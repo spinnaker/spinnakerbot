@@ -36,6 +36,6 @@ def ProcessEvents(g, s):
                 try:
                     h.handle(g, e)
                 except Exception as _err:
-                    logging.warn('Failure handling {} with {} due to {}: {}'.format(
+                    logging.warning('Failure handling {} with {} due to {}: {}'.format(
                             e, h, _err, traceback.format_exc()
                     ))

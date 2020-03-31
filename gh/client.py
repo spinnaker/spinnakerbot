@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 
-import github
-import logging
 import heapq
+import logging
 import os
+
+import github
+
 
 class Client(object):
     def __init__(self, config, storage):
