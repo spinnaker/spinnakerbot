@@ -13,8 +13,9 @@ def ApplyPolicies(g):
     if enabled is not None and not enabled:
         return
 
-    logging.info('Processing issues, repos')
-    for i in g.issues():
+    repos = config.get('repos', [])
+    logging.info('Processing issues')
+    for i in g.issues(repos):
         for p in policy.Policies():
             if p.applies(i):
                 err = None

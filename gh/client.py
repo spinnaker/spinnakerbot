@@ -13,7 +13,6 @@ class Client(object):
         self.username = self.get_username(config)
         self.g = github.Github(self.token)
         self.storage = storage
-        self._repos = config['repos']
         self._repo_objects = dict()
         self.logging = logging.getLogger('github_client_wrapper')
 
@@ -58,17 +57,15 @@ class Client(object):
             self._repo_objects[r] = self.g.get_repo(r)
         return self._repo_objects[r]
 
-    def issues(self):
-        for r in self._repos:
-            issues = 0
+    def issues(self, repos):
+        for r in repos:
             self.logging.info('Reading issues from {}'.format(r))
             for i in self.get_repo(r).get_issues():
-                issues += 1
                 yield i
 
-    def events_since(self, date):
+    def events_since(self, date, repos):
         return heapq.merge(
-                *[ reversed(list(self._events_since_repo_iter(date, r))) for r in self._repos ],
+                *[ reversed(list(self._events_since_repo_iter(date, r))) for r in repos ],
                 key=lambda e: e.created_at
         )
 
