@@ -1,5 +1,7 @@
 import logging
+
 from .handler_registry import RegisterHandler, GetHandlerConfig
+
 
 class Handler(object):
     def __init__(self):

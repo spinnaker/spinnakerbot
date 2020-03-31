@@ -1,7 +1,7 @@
-from gh import AddLabel, RemoveLabel
-from .handler import Handler
 from .command import GetCommands
+from .handler import Handler
 from .issue_event import GetIssue, GetRepo
+
 
 class IssueCommentAssignHandler(Handler):
     def __init__(self):

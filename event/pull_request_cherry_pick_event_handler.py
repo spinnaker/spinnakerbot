@@ -1,6 +1,5 @@
-from gh import AddLabel, RemoveLabel, ParseCommitMessage
-from .handler import Handler
 from .command import GetCommands
+from .handler import Handler
 from .pull_request_event import GetPullRequest, GetRepo
 
 invalid_command_format = ("You must specify exactly 1 release to cherry-pick " +

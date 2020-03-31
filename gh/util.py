@@ -6,9 +6,6 @@ logging = logging.getLogger('github_util')
 def IssueRepo(issue):
     return '/'.join(issue.url.split('/')[-4:-2])
 
-def PullRequestRepo(issue):
-    return '/'.join(issue.url.split('/')[-4:-2])
-
 def HasLabel(issue, name):
     return name in map(lambda l : l.name, issue.labels)
 

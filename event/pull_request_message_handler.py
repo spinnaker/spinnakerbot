@@ -1,6 +1,5 @@
 from .handler import Handler
-from .pull_request_event import GetBaseBranch, GetPullRequest, GetTitle, GetRepo
-from gh import ReleaseBranchFor, ParseCommitMessage
+from .pull_request_event import GetPullRequest, GetRepo
 
 bad_contents = (['### Instructions (that you should delete before submitting):', 
     'We prefer small, well tested pull requests.'])

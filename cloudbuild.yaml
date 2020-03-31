@@ -1,0 +1,15 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        docker pull gcr.io/${_PROJECT}/spinbot:$TAG_NAME || exit 0
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '-t', 'gcr.io/${_PROJECT}/spinbot:${TAG_NAME}',
+      '--cache-from', 'gcr.io/${_PROJECT}/spinbot:${TAG_NAME}',
+      '.'
+    ]
+images: ['gcr.io/${_PROJECT}/spinbot:${TAG_NAME}']

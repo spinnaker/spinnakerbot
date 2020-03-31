@@ -1,6 +1,6 @@
-from .handler import Handler
-from .pull_request_event import GetBaseBranch, GetPullRequest, GetTitle, GetRepo
 from gh import ReleaseBranchFor, ParseCommitMessage, FormatCommit
+from .handler import Handler
+from .pull_request_event import GetBaseBranch, GetPullRequest, GetRepo
 
 format_message = ('Features cannot be merged into release branches. The following commits ' +
     'are not tagged as one of "{}":\n\n{}\n\n' +
