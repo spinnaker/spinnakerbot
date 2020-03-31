@@ -2,7 +2,6 @@
 
 import github
 import logging
-import monitoring
 import heapq
 import os
 
@@ -14,7 +13,6 @@ class Client(object):
         self.storage = storage
         self._repos = config['repos']
         self._repo_objects = dict()
-        self.monitoring_db = monitoring.GetDatabase('spinbot')
         self.logging = logging.getLogger('github_client_wrapper')
 
         # Kludge accessing a private property to support ETag for certain requests, to avoid GitHub's rate limiter
@@ -38,7 +36,6 @@ class Client(object):
 
     def rate_limit(self):
         ret = self.g.get_rate_limit()
-        self.monitoring_db.write('rate_limit_remaining', { 'value': ret.core.remaining })
         return ret
 
     def get_label(self, repo, name, create=True):
@@ -71,8 +68,6 @@ class Client(object):
                 pulls += 1
                 yield i
 
-            self.monitoring_db.write('pull_requests_count', { 'value': pulls }, tags={ 'repo': r })
-
     def issues(self):
         for r in self._repos:
             issues = 0
@@ -80,8 +75,6 @@ class Client(object):
             for i in self.get_repo(r).get_issues():
                 issues += 1
                 yield i
-
-            self.monitoring_db.write('issues_count', { 'value': issues }, tags={ 'repo': r })
 
     def events_since(self, date):
         return heapq.merge(
@@ -98,8 +91,6 @@ class Client(object):
             else:
                 events += 1
                 yield e
-
-        self.monitoring_db.write('events_count', { 'value': events }, tags={ 'repo': repo })
 
     def get_branches(self, repo):
         return self.get_repo(repo).get_branches()

@@ -1,13 +1,10 @@
 import logging
-import monitoring
-from os.path import basename, realpath
 from .handler_registry import RegisterHandler, GetHandlerConfig
 
 class Handler(object):
     def __init__(self):
         self.id = self._id()
         self.logging = logging.getLogger(self.id)
-        self.monitoring_db = monitoring.GetDatabase('spinbot')
         self.config = GetHandlerConfig(self.id)
         RegisterHandler(self)
 

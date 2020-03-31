@@ -1,6 +1,5 @@
 import importlib
 import logging
-from os import listdir
 from os.path import isfile, join, dirname, realpath
 
 policies = []

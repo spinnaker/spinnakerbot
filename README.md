@@ -41,12 +41,6 @@ event:
       payload: false
   - name: release_branch_pull_request_handler
   - name: master_branch_pull_request_handler
-
-# optional
-database:
-  influx:
-    host: localhost
-    port: 9086
 ```
 
 Certain properties are exposed using command-line flags, such as
@@ -123,8 +117,6 @@ class MyEventHandler(Handler):
         # * self.config (comes from the per-event-handler config in
         #   events.handler.*.config)
         # * self.logging (a logger just for this class)
-        # * self.monitoring_db (a way to write metrics to the configured
-        #   monitoring database)
 
     def handles(self, event):
         # return True i.f.f. the input event can be handled by this handler
@@ -166,8 +158,6 @@ class MyPolicy(Policy):
         # * self.config (comes from the per-policy config in
         #   policy.policies.*.config)
         # * self.logging (a logger just for this class)
-        # * self.monitoring_db (a way to write metrics to the configured
-        #   monitoring database)
 
     def applies(self, object):
         # return True i.f.f. the input object applies to this policy
