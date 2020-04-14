@@ -1,0 +1,68 @@
+github:
+  token: "secret:spinnaker-community/spinbot-gh-token#latest"
+
+logging:
+  level: INFO
+
+storage:
+  gcs:
+    bucket: spinbot-cache
+    project: spinnaker-community
+    path: cache
+
+policy:
+  repos:
+    - spinnaker/spinnaker
+    - spinnaker/spinnaker.github.io
+    - spinnaker/deck-kayenta
+    - spinnaker/kayenta
+    - spinnaker/keel
+  policies:
+    - name: stale_issue_policy
+
+event:
+  repos:
+    - spinnaker/spinnaker
+    - spinnaker/spinnaker.github.io
+    - spinnaker/clouddriver
+    - spinnaker/deck
+    - spinnaker/deck-kayenta
+    - spinnaker/echo
+    - spinnaker/fiat
+    - spinnaker/front50
+    - spinnaker/gate
+    - spinnaker/igor
+    - spinnaker/kayenta
+    - spinnaker/keel
+    - spinnaker/spinnaker-monitoring
+    - spinnaker/orca
+    - spinnaker/rosco
+    - spinnaker/halyard
+    - spinnaker/spin
+    - spinnaker/kork
+  handlers:
+    - name: label_issue_comment_event_handler
+    - name: issue_comment_assign_handler
+    - name: log_event_handler
+      config:
+        payload: false
+    - name: pull_request_message_handler
+    - name: filetype_check_pull_request_handler
+      config:
+        omit_repos:
+          - spinnaker/spinnaker
+          - spinnaker/spinnaker.github.io
+          - spinnaker/deck
+          - spinnaker/spin
+    - name: release_branch_pull_request_handler
+      config:
+        omit_repos:
+          - spinnaker/spinnaker
+          - spinnaker/spinnaker.github.io
+    - name: master_branch_pull_request_handler
+      config:
+        omit_repos:
+          - spinnaker/spinnaker
+          - spinnaker/spinnaker.github.io
+    - name: pull_request_closed_event_handler
+    - name: pull_request_cherry_pick_event_handler

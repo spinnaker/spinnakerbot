@@ -5,7 +5,7 @@ import logging
 import os
 
 import github
-
+import secrets
 
 class Client(object):
     def __init__(self, config, storage):
@@ -29,11 +29,23 @@ class Client(object):
 
     def get_token(self, config):
         token_path = config.get('token_path')
-        if token_path is None:
-            return config.get('token')
+        if token_path is not None:
+            with open(os.path.expanduser(token_path), 'r') as f:
+                return f.read().strip()
 
-        with open(os.path.expanduser(token_path), 'r') as f:
-            return f.read().strip()
+        token = config.get('token')
+        if token.startswith("secret:"):
+            return self.fetch_token_from_secret_manager(token, config.get("json_path"))
+
+        return token
+
+    def fetch_token_from_secret_manager(self, token, json_path):
+        gcpsm = secrets.GcpSecretsManager(json_path)
+        # example config value: "secret:projectID/secretID#version"
+        (_, _, whatsLeft) = token.partition(":")
+        (project_id, _, whatsLeft) = whatsLeft.partition("/")
+        (secret_id, _, version) = whatsLeft.partition("#")
+        return gcpsm.access_secret(project_id, secret_id, version)
 
     def rate_limit(self):
         ret = self.g.get_rate_limit()

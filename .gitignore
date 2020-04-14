@@ -1,2 +1,9 @@
 .idea
 venv
+
+*.iml
+spinbot.json
+*.http
+
+__pycache_/
+**/*.pyc
