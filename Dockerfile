@@ -1,6 +1,6 @@
-FROM python:3-alpine
+FROM python:3-slim
 
-RUN adduser -D -S spinbot
+RUN adduser --disabled-login --system spinbot
 
 WORKDIR /usr/src/app
 

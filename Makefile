@@ -1,4 +1,4 @@
-PROJECT=spinnaker-marketplace
+PROJECT=spinnaker-community
 IMAGE=gcr.io/${PROJECT}/spinbot
 
 BRANCH := $(shell git rev-parse --abbrev-ref HEAD)

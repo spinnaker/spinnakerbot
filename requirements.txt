@@ -1,4 +1,5 @@
 google
 pygithub>=1.40a
 pyyaml
+google-cloud-secret-manager
 google-cloud-storage
