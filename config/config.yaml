@@ -22,8 +22,7 @@ policy:
 
 event:
   repos:
-    - spinnaker/spinnaker
-    - spinnaker/spinnaker.github.io
+    - spinnaker/buildtool
     - spinnaker/clouddriver
     - spinnaker/deck
     - spinnaker/deck-kayenta
@@ -34,12 +33,14 @@ event:
     - spinnaker/igor
     - spinnaker/kayenta
     - spinnaker/keel
+    - spinnaker/kork
     - spinnaker/spinnaker-monitoring
     - spinnaker/orca
     - spinnaker/rosco
     - spinnaker/halyard
     - spinnaker/spin
-    - spinnaker/kork
+    - spinnaker/spinnaker
+    - spinnaker/spinnaker.github.io
   handlers:
     - name: label_issue_comment_event_handler
     - name: issue_comment_assign_handler
