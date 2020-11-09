@@ -74,7 +74,7 @@ the root of the repository, or run:
 make docker
 ```
 
-This assumes you have build access in the `spinnaker-marketplace` GCP project 
+This assumes you have build access in the `spinnaker-community` GCP project
 -- you can edit `PROJECT` variable in the `Makefile` to change this.
 
 ## How it works

@@ -4,12 +4,12 @@ steps:
     args:
       - '-c'
       - |
-        docker pull gcr.io/${_PROJECT}/spinbot:$TAG_NAME || exit 0
+        docker pull ${_DOCKER_REGISTRY}/spinbot:$TAG_NAME || exit 0
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'build',
-      '-t', 'gcr.io/${_PROJECT}/spinbot:${TAG_NAME}',
-      '--cache-from', 'gcr.io/${_PROJECT}/spinbot:${TAG_NAME}',
+      '-t', '${_DOCKER_REGISTRY}/spinbot:${TAG_NAME}',
+      '--cache-from', '${_DOCKER_REGISTRY}/spinbot:${TAG_NAME}',
       '.'
     ]
-images: ['gcr.io/${_PROJECT}/spinbot:${TAG_NAME}']
+images: ['${_DOCKER_REGISTRY}/spinbot:${TAG_NAME}']

@@ -14,7 +14,7 @@ spec:
         spec:
           containers:
           - name: spinbot
-            image: gcr.io/spinnaker-marketplace/spinbot:master-latest
+            image: us-docker.pkg.dev/spinnaker-community/spinbot/spinbot:master-latest
             imagePullPolicy: Always
             volumeMounts:
             - name: config

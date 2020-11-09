@@ -1,16 +1,16 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build',
-           '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME:$SHORT_SHA',
-           '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME:$BRANCH_NAME-latest',
+           '-t', '$_DOCKER_REGISTRY/$REPO_NAME:$SHORT_SHA',
+           '-t', '$_DOCKER_REGISTRY/$REPO_NAME:$BRANCH_NAME-latest',
            '.']
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push',
-           'gcr.io/$PROJECT_ID/$REPO_NAME:$BRANCH_NAME-latest']
+           '$_DOCKER_REGISTRY/$REPO_NAME:$BRANCH_NAME-latest']
   - name: 'gcr.io/cloud-builders/gcloud'
     args: ['run',
            'deploy', '$_SERVICE_NAME',
-           '--image', 'gcr.io/$PROJECT_ID/$REPO_NAME:$BRANCH_NAME-latest',
+           '--image', '$_DOCKER_REGISTRY/$REPO_NAME:$BRANCH_NAME-latest',
            '--region', '$_REGION',
            '--platform', '$_PLATFORM',
            '--quiet']
@@ -19,7 +19,8 @@ substitutions:
   _SERVICE_NAME: spinbot
   _REGION: us-central1
   _PLATFORM: managed
+  _DOCKER_REGISTRY: us-docker.pkg.dev/spinnaker-community/spinbot
 
 images:
-  - gcr.io/$PROJECT_ID/$REPO_NAME:$SHORT_SHA
-  - gcr.io/$PROJECT_ID/$REPO_NAME:$BRANCH_NAME-latest
+  - $_DOCKER_REGISTRY/$REPO_NAME:$SHORT_SHA
+  - $_DOCKER_REGISTRY/$REPO_NAME:$BRANCH_NAME-latest
