@@ -33,7 +33,10 @@ event:
     - spinnaker/igor
     - spinnaker/kayenta
     - spinnaker/keel
+    - spinnaker/kleat
     - spinnaker/kork
+    - spinnaker/kustomization-base
+    - spinnaker/spinnaker-config
     - spinnaker/spinnaker-monitoring
     - spinnaker/orca
     - spinnaker/rosco
