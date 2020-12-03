@@ -4,44 +4,7 @@ A GitHub bot for managing Spinnaker's repos.
 
 ## Config
 
-You need a `~/.spinbot/config` file with the following (example) values:
-
-```yaml
-github:
-# either token: or token_path: must be set
-# generate a token here: https://github.com/settings/tokens
-  token_path: /path/to/github/token_file
-  repos: [] # list of repos, e.g
-            # - spinnaker/spinnaker
-            # - spinnaker/clouddriver
-            # ....
-
-logging:
-  level: INFO
-
-storage:
-# either 'local', or 'gcs'
-  local:
-    path: ~/.spinbot/cache
-  gcs:
-    bucket: spinbot-cache
-    project: your-creds-project
-    path: spinbot/cache
-    json_path: /path/to/creds.json
-
-policy:
-  policies:
-  - name: log_issue_policy
-
-event:
-  handlers:
-  # each of these has an optional "config" section
-  - name: log_event_handler
-    config:
-      payload: false
-  - name: release_branch_pull_request_handler
-  - name: master_branch_pull_request_handler
-```
+The production config is checked in as `config/config.yaml`.
 
 Certain properties are exposed using command-line flags, such as
 `--events.enabled=False`. These are parsed/delimited by `.` and merged with the
@@ -63,9 +26,27 @@ You will need the following:
   make init
   ```
 
-2. Configure the bot, see [the config section above](#config)
+2. Edit the config file to tell the bot to use local storage:
 
-3. Run `./spinbot.py`. It should complete after a few seconds.
+   ```
+   storage:
+     local:
+     path: ~/.spinbot/cache
+   ```
+
+   Then create that file: `mkdir ~/.spinbot && touch ~/.spinbot/cache`
+
+3. Create a github token and add it to the config:
+
+   ```
+   github:
+     token_path: ~/.spinbot/github_token
+   ```
+
+4. Run `./spinbot.py`. It will start up a web server. Trigger a run by
+   sending a `POST` request:
+   
+   `$ curl -X POST http://localhost:8080 -o /dev/null` 
 
 If you want to build the Docker container, either rely on the `Dockerfile` in
 the root of the repository, or run:
@@ -76,6 +57,14 @@ make docker
 
 This assumes you have build access in the `spinnaker-community` GCP project
 -- you can edit `PROJECT` variable in the `Makefile` to change this.
+
+## Deploying to Production
+
+Upon merge, a build will be triggered in the [`spinnaker-community` Google Cloud
+Build project](https://console.cloud.google.com/cloud-build?project=spinnaker-community).
+This build will deploy the latest version to production.
+
+It runs as a [Google Cloud Run service](https://pantheon.corp.google.com/run/detail/us-central1/spinbot/revisions?project=spinnaker-community). 
 
 ## How it works
 
