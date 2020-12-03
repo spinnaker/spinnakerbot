@@ -64,7 +64,7 @@ Upon merge, a build will be triggered in the [`spinnaker-community` Google Cloud
 Build project](https://console.cloud.google.com/cloud-build?project=spinnaker-community).
 This build will deploy the latest version to production.
 
-It runs as a [Google Cloud Run service](https://pantheon.corp.google.com/run/detail/us-central1/spinbot/revisions?project=spinnaker-community). 
+It runs as a [Google Cloud Run service](https://console.cloud.google.com/run/detail/us-central1/spinbot/revisions?project=spinnaker-community). 
 
 ## How it works
 
