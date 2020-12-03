@@ -45,8 +45,7 @@ class SimpleHandler(BaseHTTPRequestHandler):
             self.send_header('Content-type', 'text/plain')
             self.end_headers()
             self.wfile.write(bytes("done!", "UTF-8"))
-        except:
-            e = sys.exc_info()[0]
+        except Exception as e:
             logging.error(e)
             self.send_response(500)
             self.send_header('Content-type', 'text/plain')
