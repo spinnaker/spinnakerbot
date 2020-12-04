@@ -32,19 +32,28 @@ class GcsStorage(Storage):
         super().__init__()
 
     def store(self, key, val):
-        b = self.bucket.get_blob(self.path)
-        contents = '{}'
-        if b:
-            contents = b.download_as_string()
+        origblob = self.bucket.get_blob(self.path)
+        if origblob:
+            contents = origblob.download_as_string()
         else:
-            b = self.bucket.blob(self.path)
+            contents = '{}'
 
         props = yaml.safe_load(contents)
         if props is None:
             props = {}
 
         props[key] = val
-        b.upload_from_string(yaml.safe_dump(props))
+        # You can't use origblob to upload. Calling `download_as_string` sets
+        # the hash field (crc32) on the object. When you upload, since that
+        # field is already set, it won't get recalculated it for the new
+        # content. So it sends the crc32 to the server and the server says
+        # "whoah buddy, your crc32 doesn't match your content" and returns an
+        # error. Is this a bug or just confusing library design? The crc32 field
+        # on the blob is new, so it's hard for me to say if they intended for it
+        # to work this way. It works in google-cloud-storage 1.29.0, but is
+        # broken in 1.33.0.
+        newblob = self.bucket.blob(self.path)
+        newblob.upload_from_string(yaml.safe_dump(props))
 
     def load(self, key):
         b = self.bucket.get_blob(self.path)
