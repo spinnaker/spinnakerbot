@@ -3,8 +3,8 @@ from .pull_request_event import GetPullRequest, GetRepo
 
 format_message = ('We prefer that non-test backend code be written in Java or Kotlin, rather ' +
         'than Groovy. The following files have been added and written in Groovy:\n\n' +
-        '{}\n\n' + 
-        'See our server-side [commit conventions here](https://www.spinnaker.io/community/contributing/back-end-code/#choice-of-language).')
+        '{}\n\n' +
+        'See our server-side [conventions here](https://spinnaker.io/docs/community/contributing/code/back-end-code/#languages).')
 
 class FiletypeCheckPullRequestHandler(Handler):
     def __init__(self):
@@ -36,7 +36,7 @@ class FiletypeCheckPullRequestHandler(Handler):
                 continue
             if 'src/test' in f.filename:
                 continue
-            
+
             bad_files.append(f)
 
         if len(bad_files) > 0:

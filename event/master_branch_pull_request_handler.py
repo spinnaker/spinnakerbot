@@ -7,7 +7,7 @@ format_message = ('The following commits need their title changed:\n\n{}\n\n' +
     '`<type>(<scope>): <subject>`, e.g. `fix(kubernetes): address NPE in status check`\n\n' +
     'This allows us to easily generate changelogs & determine semantic version numbers when ' +
     'cutting releases. You can read more about [commit ' +
-    'conventions](https://www.spinnaker.io/community/contributing/submitting/#commit-message-conventions) ' +
+    'conventions](https://spinnaker.io/docs/community/contributing/code/submitting/#commit-and-pr-message-conventions) ' +
     'here.')
 
 class MasterBranchPullRequestHandler(Handler):
