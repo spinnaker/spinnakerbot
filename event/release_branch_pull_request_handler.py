@@ -4,8 +4,8 @@ from .pull_request_event import GetBaseBranch, GetPullRequest, GetRepo
 
 format_message = ('Features cannot be merged into release branches. The following commits ' +
     'are not tagged as one of "{}":\n\n{}\n\n' +
-    'Read more about [commit conventions](https://www.spinnaker.io/community/contributing/submitting/#commit-message-conventions) ' +
-    'and [patch releases](https://www.spinnaker.io/community/releases/release-cadence/#patching-the-release-candidate) here.')
+    'Read more about [commit conventions](https://spinnaker.io/docs/community/contributing/code/submitting/#commit-and-pr-message-conventions) ' +
+    'and [patch releases](https://spinnaker.io/docs/releases/release-cadence/#patching-the-release-candidate) here.')
 
 class ReleaseBranchPullRequestHandler(Handler):
     def __init__(self):
