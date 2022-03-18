@@ -34,7 +34,6 @@ event:
     - spinnaker/kayenta
     - spinnaker/keel
     - spinnaker/kork
-    - spinnaker/spinnaker-monitoring
     - spinnaker/orca
     - spinnaker/rosco
     - spinnaker/halyard

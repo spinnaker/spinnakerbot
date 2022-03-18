@@ -81,7 +81,6 @@ data:
       - spinnaker/igor
       - spinnaker/kayenta
       - spinnaker/keel
-      - spinnaker/spinnaker-monitoring
       - spinnaker/orca
       - spinnaker/rosco
       - spinnaker/halyard
@@ -96,19 +95,19 @@ data:
       - name: pull_request_message_handler
       - name: filetype_check_pull_request_handler
         config:
-          omit_repos: 
+          omit_repos:
           - spinnaker/spinnaker
           - spinnaker/spinnaker.github.io
           - spinnaker/deck
           - spinnaker/spin
       - name: release_branch_pull_request_handler
         config:
-          omit_repos: 
+          omit_repos:
           - spinnaker/spinnaker
           - spinnaker/spinnaker.github.io
       - name: master_branch_pull_request_handler
         config:
-          omit_repos: 
+          omit_repos:
           - spinnaker/spinnaker
           - spinnaker/spinnaker.github.io
       - name: pull_request_closed_event_handler
