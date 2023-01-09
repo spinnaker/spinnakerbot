@@ -39,7 +39,7 @@ event:
     - spinnaker/halyard
     - spinnaker/spin
     - spinnaker/spinnaker
-    - spinnaker/spinnaker.github.io
+    - spinnaker/spinnaker.io
   handlers:
     - name: label_issue_comment_event_handler
     - name: issue_comment_assign_handler
@@ -51,17 +51,17 @@ event:
       config:
         omit_repos:
           - spinnaker/spinnaker
-          - spinnaker/spinnaker.github.io
+          - spinnaker/spinnaker.io
           - spinnaker/deck
           - spinnaker/spin
     - name: release_branch_pull_request_handler
       config:
         omit_repos:
           - spinnaker/spinnaker
-          - spinnaker/spinnaker.github.io
+          - spinnaker/spinnaker.io
     - name: master_branch_pull_request_handler
       config:
         omit_repos:
           - spinnaker/spinnaker
-          - spinnaker/spinnaker.github.io
+          - spinnaker/spinnaker.io
     - name: pull_request_closed_event_handler
