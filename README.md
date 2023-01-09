@@ -67,6 +67,7 @@ This build will deploy the latest version to production.
 It runs as a [Google Cloud Run service](https://console.cloud.google.com/run/detail/us-central1/spinbot/revisions?project=spinnaker-community). 
 
 After deploying the latest version, a manual step is required to update the Google Cloud Run traffic, using the link above. 
+Checkout the [Google Cloud Run logs](https://console.cloud.google.com/run/detail/us-central1/spinbot/logs?project=spinnaker-community) to ensure the deployment went smoothly and there are no errors.
 
 
 ## How it works
