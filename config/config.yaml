@@ -13,7 +13,7 @@ storage:
 policy:
   repos:
     - spinnaker/spinnaker
-    - spinnaker/spinnaker.github.io
+    - spinnaker/spinnaker.io
     - spinnaker/deck-kayenta
     - spinnaker/kayenta
     - spinnaker/keel
